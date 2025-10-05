@@ -76,6 +76,48 @@ static void star_field(FILE *fp, int count, double W, double H, double yMax) {
     #undef RND
 }
 
+static void shooting_stars(FILE *fp, double W, double H) {
+    fprintf(fp, "<g id='shooting-stars' opacity='0.9'>\n");
+    unsigned int seed = 987654u;
+    #define RND() (seed = 1664525u * seed + 1013904223u, (seed>>8) / (double)0xFFFFFFu)
+    for (int i = 0; i < 600; i++) {
+        double x = W * RND();
+        double y = H * 0.3 * RND();         // 上空付近
+        double len = 160.0 + 100.0 * RND();
+        double angle = -50.0;               // ↙方向
+        double delay = 1800.0 * RND();         // ランダムに発生
+        double dur = 0.5;                   // 光が通過する時間
+
+        // 斜めに細く光る線
+        fprintf(fp,
+          "<line x1='%.1f' y1='%.1f' x2='%.1f' y2='%.1f' "
+          "stroke='white' stroke-width='1.3' stroke-linecap='round' "
+          "stroke-dasharray='%.1f' stroke-dashoffset='%.1f' opacity='0.0' "
+          "transform='rotate(%.1f %.1f %.1f)'>\n",
+          x, y, x + len, y + len * 0.4, len, len,
+          angle, x, y);
+
+        // 光が流れるように dashoffset を動かす
+        fprintf(fp,
+          "  <animate attributeName='stroke-dashoffset' from='%.1f' to='0' dur='%.2fs' begin='%.2fs' fill='freeze'/>\n",
+          len, dur, delay);
+
+        // 少し下方向に落とす
+        fprintf(fp,
+          "  <animateTransform attributeName='transform' type='translate' from='0 0' to='0 %.1f' dur='%.2fs' begin='%.2fs' fill='freeze'/>\n",
+          H * 0, dur, delay);
+
+        // 出現→消滅
+        fprintf(fp,
+          "  <animate attributeName='opacity' values='0;1;0' dur='%.2fs' begin='%.2fs' fill='freeze'/>\n",
+          dur * 2, delay);
+
+        fprintf(fp, "</line>\n");
+    }
+    #undef RND
+    fprintf(fp, "</g>\n");
+}
+
 int main(void) {
     const double W = 1300, H = 490;
 
@@ -129,6 +171,8 @@ int main(void) {
     printf("<g opacity='0.9'>\n");
     star_field(stdout, 140, W, H, H*0.50);
     printf("</g>\n");
+
+    shooting_stars(stdout, W, H);
 
     // 月（右上に配置）
     double moonX = W * 0.88, moonY = H * 0.18, moonR = 26.0;
