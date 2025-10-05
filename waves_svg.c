@@ -108,6 +108,18 @@ int main(void) {
       "  <filter id='glow'>\n"
       "    <feGaussianBlur stdDeviation='6'/>\n"
       "  </filter>\n"
+      "  <linearGradient id='textGrad' x1='0' y1='0' x2='1' y2='1'>\n"
+      "    <stop offset='0%%'  stop-color='#bfe9ff'/>\n"
+      "    <stop offset='50%%' stop-color='#8fd3fe'/>\n"
+      "    <stop offset='100%%' stop-color='#4facfe'/>\n"
+      "  </linearGradient>\n"
+      "  <filter id='textGlow'>\n"
+      "    <feGaussianBlur in='SourceGraphic' stdDeviation='2'/>\n"
+      "    <feMerge>\n"
+      "      <feMergeNode/>\n"
+      "      <feMergeNode in='SourceGraphic'/>\n"
+      "    </feMerge>\n"
+      "  </filter>\n"
       "</defs>\n"
       "<rect width='100%%' height='100%%' fill='url(#sky)'/>\n",
       W, H, W, H
@@ -127,6 +139,27 @@ int main(void) {
     // 本体
     printf("<circle cx='%.1f' cy='%.1f' r='%.1f' fill='#fffbe8' stroke='rgba(255,255,255,0.5)' stroke-width='0.8'/>\n",
            moonX, moonY, moonR);
+    printf("</g>\n");
+
+    // 名前
+    double brandX = W * 0.04, brandY = H * 0.19;
+    printf("<g id='branding' opacity='0.85'>\n");
+    // 文字本体
+    printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
+           "font-weight='700' font-size='45' letter-spacing='1.2' "
+           "fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.2'>Aotumuri</text>\n",
+           brandX, brandY);
+    // 文字の光
+    printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
+           "font-weight='700' font-size='45' letter-spacing='1.2' "
+           "fill='url(#textGrad)' filter='url(#textGlow)'>Aotumuri</text>\n",
+           brandX, brandY);
+    printf("</g>\n");
+
+    // 情報パネル
+    printf("<!-- info panel placeholder -->\n");
+    printf("<g id='info' transform='translate(%.1f, %.1f)'>\n", W*0.62, H*0.18);
+    printf("  <!-- future: commit stats, streaks, etc. populated via pre-rendered text -->\n");
     printf("</g>\n");
 
     // 波レイヤー
