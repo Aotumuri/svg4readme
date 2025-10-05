@@ -77,7 +77,7 @@ static void star_field(FILE *fp, int count, double W, double H, double yMax) {
 }
 
 int main(void) {
-    const double W = 1200, H = 420;
+    const double W = 1300, H = 490;
 
     Layer L[] = {
         //   λ     A     y       speed  wobA wobT  color      opac
@@ -127,7 +127,7 @@ int main(void) {
 
     // 星（上部 0～40% の範囲に配置）
     printf("<g opacity='0.9'>\n");
-    star_field(stdout, 140, W, H, H*0.40);
+    star_field(stdout, 140, W, H, H*0.50);
     printf("</g>\n");
 
     // 月（右上に配置）
@@ -142,24 +142,49 @@ int main(void) {
     printf("</g>\n");
 
     // 名前
-    double brandX = W * 0.04, brandY = H * 0.19;
+    double brandX = W * 0.04, brandY = H * 0.14;
     printf("<g id='branding' opacity='0.85'>\n");
     // 文字本体
     printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
-           "font-weight='700' font-size='45' letter-spacing='1.2' "
+           "font-weight='700' font-size='57' letter-spacing='1.2' "
            "fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.2'>Aotumuri</text>\n",
            brandX, brandY);
     // 文字の光
     printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
-           "font-weight='700' font-size='45' letter-spacing='1.2' "
+           "font-weight='700' font-size='57' letter-spacing='1.2' "
            "fill='url(#textGrad)' filter='url(#textGlow)'>Aotumuri</text>\n",
            brandX, brandY);
     printf("</g>\n");
 
-    // 情報パネル
-    printf("<!-- info panel placeholder -->\n");
-    printf("<g id='info' transform='translate(%.1f, %.1f)'>\n", W*0.62, H*0.18);
-    printf("  <!-- future: commit stats, streaks, etc. populated via pre-rendered text -->\n");
+    // 背景矩形（淡い青）
+    double boxX = brandX - 6.0;
+    double boxY = brandY + 20.0;
+    double boxWidth = 1000.0;
+    double boxHeight = 140.0;
+    printf("<rect x='%.1f' y='%.1f' width='%.1f' height='%.1f' rx='8' ry='8' "
+           "fill='rgba(100,160,220,0.20)' stroke='rgba(160,200,255,0.35)' stroke-width='1.0'/>\n",
+           boxX, boxY, boxWidth, boxHeight);
+
+    // 情報パネル：使用言語
+    printf("<g id='info' transform='translate(%.1f, %.1f)' opacity='0.85'>\n", brandX + 15.0 , boxY + 40.0);
+    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>Programming Languages</text>\n");
+    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>TypeScript / Python / C#</text>\n");
+    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>JavaScript / McFunction / C</text>\n");
+    printf("</g>\n");
+
+    double barX = brandX + 500.0;   // 横位置（名前の少し右）
+    double barY = brandY + 40.0;   // 開始位置（矩形の上端）
+    double barHeight = 100.0;      // 棒の高さ
+    printf("<rect x='%.1f' y='%.1f' width='4' height='%.1f' "
+        "fill='rgba(120,180,255,0.35)' stroke='rgba(180,220,255,0.45)' "
+        "rx='2' ry='2'/>\n",
+        barX, barY, barHeight);
+
+    // 情報パネル：使用言語
+    printf("<g id='info' transform='translate(%.1f, %.1f)' opacity='0.85'>\n", barX + 25.0 , boxY + 40.0);
+    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>Spoken Languages</text>\n");
+    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>Japanease (Native)</text>\n");
+    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>English, German (Learning)</text>\n");
     printf("</g>\n");
 
     // 波レイヤー
