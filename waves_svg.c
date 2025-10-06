@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include "config.h"
 
 typedef struct {
     double lambda;   // 基本波長(px)
@@ -191,13 +192,13 @@ int main(void) {
     // 文字本体
     printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
            "font-weight='700' font-size='57' letter-spacing='1.2' "
-           "fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.2'>Aotumuri</text>\n",
-           brandX, brandY);
+           "fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.2'>%s</text>\n",
+           brandX, brandY, get_username());
     // 文字の光
     printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
            "font-weight='700' font-size='57' letter-spacing='1.2' "
-           "fill='url(#textGrad)' filter='url(#textGlow)'>Aotumuri</text>\n",
-           brandX, brandY);
+           "fill='url(#textGrad)' filter='url(#textGlow)'>%s</text>\n",
+           brandX, brandY, get_username());
     printf("</g>\n");
 
     // 背景矩形（淡い青）
@@ -211,9 +212,9 @@ int main(void) {
 
     // 情報パネル：使用言語
     printf("<g id='info' transform='translate(%.1f, %.1f)' opacity='0.85'>\n", brandX + 15.0 , boxY + 40.0);
-    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>Programming Languages</text>\n");
-    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>TypeScript / Python / C#</text>\n");
-    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>JavaScript / McFunction / C</text>\n");
+    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>%s</text>\n", get_first_title());
+    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_first_desc1());
+    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_first_desc2());
     printf("</g>\n");
 
     double barX = brandX + 500.0;   // 横位置（名前の少し右）
@@ -226,9 +227,9 @@ int main(void) {
 
     // 情報パネル：使用言語
     printf("<g id='info' transform='translate(%.1f, %.1f)' opacity='0.85'>\n", barX + 25.0 , boxY + 40.0);
-    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>Spoken Languages</text>\n");
-    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>Japanease (Native)</text>\n");
-    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>English, German (Learning)</text>\n");
+    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>%s</text>\n", get_second_title());
+    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_second_desc1());
+    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_second_desc2());
     printf("</g>\n");
 
     // 波レイヤー
