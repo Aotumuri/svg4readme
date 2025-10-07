@@ -176,7 +176,7 @@ int main(void) {
     printf("<g id='farRidge' opacity='0.65'>\n");
     printf("  <path d='M 0 %.1f C %.1f %.1f, %.1f %.1f, %.1f %.1f S %.1f %.1f, %.1f %.1f L %.1f %.1f L 0 %.1f Z' fill='url(#ridgeFade)'/>\n",
            H*0.58, W*0.18, H*0.48, W*0.36, H*0.62, W*0.52, H*0.56,
-           W*0.72, H*0.66, W*0.95, H*0.60, W, H, 0.0, H);
+           W*0.72, H*0.66, W*0.95, H*0.60, W, H, 0.0);
     printf("</g>\n");
 
     // 低い煙の層（水平に漂う靄）
