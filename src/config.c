@@ -30,8 +30,8 @@ static void load_profile(void) {
     if (initialized) return;
     initialized = 1;
     const char *path = getenv("SVG4README_CONFIG");
-    FILE *fp = fopen((path && *path) ? path : "profile.conf", "r");
-    if (!fp) return; /* profile.conf is optional */
+    FILE *fp = fopen((path && *path) ? path : "config/profile.conf", "r");
+    if (!fp) return; /* config/profile.conf is optional */
 
     char line[2048];
     while (fgets(line, sizeof(line), fp)) {

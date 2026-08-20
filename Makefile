@@ -1,27 +1,36 @@
 CC ?= gcc
 CFLAGS ?= -O2 -Wall -Wextra -std=c11
+SRC_DIR := src
+BUILD_DIR := build
+OUTPUT_DIR := output
 
 .PHONY: all waves fire forest clean
 
-all: waves_svg fire_svg forest_svg
+all: $(BUILD_DIR)/waves_svg $(BUILD_DIR)/fire_svg $(BUILD_DIR)/forest_svg
 
-waves_svg: waves_svg.c config.c config.h
-	$(CC) $(CFLAGS) waves_svg.c config.c -lm -o $@
+$(BUILD_DIR):
+	mkdir -p $@
 
-fire_svg: fire_svg.c config.c config.h
-	$(CC) $(CFLAGS) fire_svg.c config.c -lm -o $@
+$(OUTPUT_DIR):
+	mkdir -p $@
 
-forest_svg: forest_svg.c config.c config.h
-	$(CC) $(CFLAGS) forest_svg.c config.c -o $@
+$(BUILD_DIR)/waves_svg: $(SRC_DIR)/waves_svg.c $(SRC_DIR)/config.c $(SRC_DIR)/config.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(SRC_DIR)/waves_svg.c $(SRC_DIR)/config.c -lm -o $@
 
-waves: waves_svg
-	./waves_svg > waves.svg
+$(BUILD_DIR)/fire_svg: $(SRC_DIR)/fire_svg.c $(SRC_DIR)/config.c $(SRC_DIR)/config.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(SRC_DIR)/fire_svg.c $(SRC_DIR)/config.c -lm -o $@
 
-fire: fire_svg
-	./fire_svg > fire.svg
+$(BUILD_DIR)/forest_svg: $(SRC_DIR)/forest_svg.c $(SRC_DIR)/config.c $(SRC_DIR)/config.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(SRC_DIR)/forest_svg.c $(SRC_DIR)/config.c -o $@
 
-forest: forest_svg
-	./forest_svg > forest.svg
+waves: $(BUILD_DIR)/waves_svg | $(OUTPUT_DIR)
+	./$(BUILD_DIR)/waves_svg > $(OUTPUT_DIR)/waves.svg
+
+fire: $(BUILD_DIR)/fire_svg | $(OUTPUT_DIR)
+	./$(BUILD_DIR)/fire_svg > $(OUTPUT_DIR)/fire.svg
+
+forest: $(BUILD_DIR)/forest_svg | $(OUTPUT_DIR)
+	./$(BUILD_DIR)/forest_svg > $(OUTPUT_DIR)/forest.svg
 
 clean:
-	rm -f waves_svg fire_svg forest_svg waves.svg fire.svg forest.svg
+	rm -rf $(BUILD_DIR) $(OUTPUT_DIR)

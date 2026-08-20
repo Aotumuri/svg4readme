@@ -24,11 +24,11 @@ Forest
 
 ## プロフィールの入力
 
-まず `profile.conf.example` を `profile.conf` にコピーして、表示したい内容を書き換えます。`profile.conf` は実行時に読むので、内容を変えても再ビルドは不要です。値に空白を含めてもそのまま使えます。
+まず `config/profile.conf.example` を `config/profile.conf` にコピーして、表示したい内容を書き換えます。`profile.conf` は実行時に読むので、内容を変えても再ビルドは不要です。値に空白を含めてもそのまま使えます。
 
 ```bash
-cp profile.conf.example profile.conf
-# profile.conf を編集
+cp config/profile.conf.example config/profile.conf
+# config/profile.conf を編集
 ```
 
 各説明欄は最大3行、見出しは最大2行まで自動で折り返します。収まりきらない場合は末尾を `…` にして、バナーの外にはみ出さないようにします。改行を入れれば任意の位置で改行できます。
@@ -48,17 +48,28 @@ make
 個別にビルドする場合は以下です。
 
 ```bash
-gcc -O2 waves_svg.c config.c -lm -o waves_svg
-gcc -O2 fire_svg.c config.c -lm -o fire_svg
-gcc -O2 forest_svg.c config.c -o forest_svg
+mkdir -p build
+gcc -O2 src/waves_svg.c src/config.c -lm -o build/waves_svg
+gcc -O2 src/fire_svg.c src/config.c -lm -o build/fire_svg
+gcc -O2 src/forest_svg.c src/config.c -o build/forest_svg
 ```
 
 ## 実行方法
-以下のコマンドで SVG が生成されます。
+以下のコマンドで SVG が `output/` に生成されます。
 ```bash
 make waves
 make fire
 make forest
+```
+
+## フォルダ構成
+
+```text
+src/       C のソースコード
+config/    編集するプロフィール設定
+build/     コンパイル済み実行ファイル（自動生成）
+output/    生成した SVG（自動生成）
+sample/    README 用のサンプル SVG
 ```
 
 ## 出力例
