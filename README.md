@@ -18,11 +18,16 @@ Fire
 - 降ってくる火の粉のアニメーション
 - 複数レイヤーの波の揺らぎ（溶岩）
 
+Forest
+- 月明かりに照らされた針葉樹の森
+- たなびく霧と、ゆっくり明滅する蛍
+
 ## ビルド方法
 config.cを編集したら以下のコマンドを実行する必要があります。
 ```bash
 gcc -O2 waves_svg.c config.c -lm -o waves_svg
 gcc -O2 fire_svg.c config.c -lm -o fire_svg
+gcc -O2 forest_svg.c config.c -o forest_svg
 ```
 
 ## 実行方法
@@ -30,6 +35,7 @@ gcc -O2 fire_svg.c config.c -lm -o fire_svg
 ```bash
 ./waves_svg > waves.svg
 ./fire_svg > fire.svg 
+./forest_svg > forest.svg
 ```
 
 ## 出力例
@@ -39,3 +45,6 @@ wave.svg (夜の海)
 
 fire.svg (噴火した火山)
 <img src="https://raw.githubusercontent.com/Aotumuri/svg4readme/refs/heads/main/sample/fire.svg" />
+
+forest.svg (夜の森)
+<img src="https://raw.githubusercontent.com/Aotumuri/svg4readme/refs/heads/main/sample/forest.svg" />
