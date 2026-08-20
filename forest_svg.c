@@ -89,11 +89,22 @@ int main(void) {
     fireflies(stdout, W, H);
 
     double brandX = 52, brandY = 70, boxY = 90;
-    printf("<g opacity='.9'><text x='%.1f' y='%.1f' font-family='Inter,Roboto,Segoe UI,Helvetica,Arial,sans-serif' font-weight='700' font-size='57' letter-spacing='1.2' fill='url(#textGrad)'>%s</text>\n", brandX, brandY, get_username());
-    printf("<rect x='46' y='%.1f' width='1000' height='140' rx='8' fill='rgba(10,39,24,.44)' stroke='rgba(190,235,168,.30)'/>\n", boxY);
-    printf("<g transform='translate(67 %.1f)'><text font-size='36' font-family='Inter,sans-serif' fill='url(#textGrad)'>%s</text><text x='15' y='42' font-size='30' fill='#e9f3e3'>%s</text><text x='15' y='82' font-size='30' fill='#e9f3e3'>%s</text></g>\n", boxY+40, get_first_title(), get_first_desc1(), get_first_desc2());
-    printf("<rect x='552' y='110' width='4' height='100' rx='2' fill='rgba(183,232,160,.55)'/>\n");
-    printf("<g transform='translate(581 %.1f)'><text font-size='36' font-family='Inter,sans-serif' fill='url(#textGrad)'>%s</text><text x='15' y='42' font-size='30' fill='#e9f3e3'>%s</text><text x='15' y='82' font-size='30' fill='#e9f3e3'>%s</text></g></g>\n", boxY+40, get_second_title(), get_second_desc1(), get_second_desc2());
+    double brandSize = brand_font_size(get_username());
+    printf("<g opacity='.9'><text x='%.1f' y='%.1f' font-family='Inter,Roboto,Segoe UI,Helvetica,Arial,sans-serif' font-weight='700' font-size='%.1f' letter-spacing='1.2' fill='url(#textGrad)'>", brandX, brandY, brandSize);
+    print_svg_escaped(stdout, get_username());
+    printf("</text>\n");
+    int firstHeight = info_column_height(get_first_title(), get_first_desc1(), get_first_desc2());
+    int secondHeight = info_column_height(get_second_title(), get_second_desc1(), get_second_desc2());
+    double boxHeight = (firstHeight > secondHeight ? firstHeight : secondHeight) + 32.0;
+    printf("<rect x='46' y='%.1f' width='1000' height='%.1f' rx='8' fill='rgba(10,39,24,.44)' stroke='rgba(190,235,168,.30)'/>\n", boxY, boxHeight);
+    printf("<g id='info-first'>\n");
+    print_info_column(stdout, 67, boxY + 40, get_first_title(), get_first_desc1(), get_first_desc2(),
+                      "url(#textGrad)", "#e9f3e3");
+    printf("</g>\n<rect x='552' y='110' width='4' height='%.1f' rx='2' fill='rgba(183,232,160,.55)'/>\n", boxHeight - 40.0);
+    printf("<g id='info-second'>\n");
+    print_info_column(stdout, 581, boxY + 40, get_second_title(), get_second_desc1(), get_second_desc2(),
+                      "url(#textGrad)", "#e9f3e3");
+    printf("</g></g>\n");
     printf("<rect width='100%%' height='100%%' fill='none' stroke='rgba(177,220,145,.20)' stroke-width='10'/></svg>\n");
     return 0;
 }

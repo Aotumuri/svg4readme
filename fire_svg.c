@@ -249,48 +249,53 @@ int main(void) {
 
     // 名前
     double brandX = W * 0.04, brandY = H * 0.14;
+    double brandSize = brand_font_size(get_username());
     printf("<g id='branding' opacity='0.85'>\n");
     // 文字本体
     printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
-           "font-weight='700' font-size='57' letter-spacing='1.2' "
-           "fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.2'>%s</text>\n",
-           brandX, brandY, get_username());
+           "font-weight='700' font-size='%.1f' letter-spacing='1.2' "
+           "fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.2'>",
+           brandX, brandY, brandSize);
+    print_svg_escaped(stdout, get_username());
+    printf("</text>\n");
     // 文字の光
     printf("<text x='%.1f' y='%.1f' font-family='Inter, Roboto, Segoe UI, Helvetica, Arial, sans-serif' "
-           "font-weight='700' font-size='57' letter-spacing='1.2' "
-           "fill='url(#textGrad)' filter='url(#textGlow)'>%s</text>\n",
-           brandX, brandY, get_username());
+           "font-weight='700' font-size='%.1f' letter-spacing='1.2' "
+           "fill='url(#textGrad)' filter='url(#textGlow)'>",
+           brandX, brandY, brandSize);
+    print_svg_escaped(stdout, get_username());
+    printf("</text>\n");
     printf("</g>\n");
 
     // 背景矩形（淡い青）
     double boxX = brandX - 6.0;
     double boxY = brandY + 20.0;
     double boxWidth = 1000.0;
-    double boxHeight = 140.0;
+    int firstHeight = info_column_height(get_first_title(), get_first_desc1(), get_first_desc2());
+    int secondHeight = info_column_height(get_second_title(), get_second_desc1(), get_second_desc2());
+    double boxHeight = (firstHeight > secondHeight ? firstHeight : secondHeight) + 32.0;
     printf("<rect x='%.1f' y='%.1f' width='%.1f' height='%.1f' rx='8' ry='8' "
            "fill='rgba(120,40,20,0.22)' stroke='rgba(255,120,60,0.40)' stroke-width='1.0'/>\n",
            boxX, boxY, boxWidth, boxHeight);
 
-    // 情報パネル：使用言語
-    printf("<g id='info' transform='translate(%.1f, %.1f)' opacity='0.85'>\n", brandX + 15.0 , boxY + 40.0);
-    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>%s</text>\n", get_first_title());
-    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_first_desc1());
-    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_first_desc2());
+    printf("<g id='info-first' opacity='0.85'>\n");
+    print_info_column(stdout, brandX + 15.0, boxY + 40.0,
+                      get_first_title(), get_first_desc1(), get_first_desc2(),
+                      "url(#textGrad)", "rgba(255,255,255,0.85)");
     printf("</g>\n");
 
     double barX = brandX + 500.0;   // 横位置（名前の少し右）
     double barY = brandY + 40.0;   // 開始位置（矩形の上端）
-    double barHeight = 100.0;      // 棒の高さ
+    double barHeight = boxHeight - 40.0;
     printf("<rect x='%.1f' y='%.1f' width='4' height='%.1f' "
         "fill='rgba(255,120,60,0.45)' stroke='rgba(255,180,120,0.55)' "
         "rx='2' ry='2'/>\n",
         barX, barY, barHeight);
 
-    // 情報パネル：使用言語
-    printf("<g id='info' transform='translate(%.1f, %.1f)' opacity='0.85'>\n", barX + 25.0 , boxY + 40.0);
-    printf("  <text font-size='36' font-family='Inter, sans-serif' fill='url(#textGrad)'>%s</text>\n", get_second_title());
-    printf("  <text y='42' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_second_desc1());
-    printf("  <text y='82' x='15' font-size='30' fill='rgba(255,255,255,0.85)'>%s</text>\n", get_second_desc2());
+    printf("<g id='info-second' opacity='0.85'>\n");
+    print_info_column(stdout, barX + 25.0, boxY + 40.0,
+                      get_second_title(), get_second_desc1(), get_second_desc2(),
+                      "url(#textGrad)", "rgba(255,255,255,0.85)");
     printf("</g>\n");
 
     // 周辺減光（ビネット）

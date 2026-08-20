@@ -1,0 +1,8 @@
+# Copy this file to profile.conf, then edit the values. No recompilation is needed.
+BRAND_NAME=Aotumuri
+FIRST_TITLE=Programming Languages
+FIRST_DESC1=TypeScript / Python / C#
+FIRST_DESC2=JavaScript / McFunction / C
+SECOND_TITLE=Spoken Languages
+SECOND_DESC1=Japanese (Native)
+SECOND_DESC2=English, German (Learning)
